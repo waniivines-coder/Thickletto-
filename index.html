@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#9f1239">
+<title>Thickletto | Fresh Thick Shakes</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fff8f3;color:#29212a;font-family:system-ui,sans-serif}
+header{background:linear-gradient(140deg,#9f1239,#e11d48);color:white;text-align:center;padding:32px 18px 28px}
+.brand{font-size:13px;letter-spacing:4px;font-weight:800}
+h1{font-size:40px;margin:10px 0}
+header p{margin:5px auto;max-width:340px}
+main{max-width:650px;margin:auto;padding:18px}
+h2{font-size:22px}
+.note{color:#786871;font-size:13px}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item{background:white;border:1px solid #f1dfe3;border-radius:16px;padding:14px}
+.emoji{font-size:36px}
+.item h3{margin:8px 0 4px;font-size:16px}
+.price{font-weight:800;color:#be123c;font-size:20px}
+button{border:0;border-radius:10px;padding:11px;background:#be123c;color:white;font-weight:700;cursor:pointer}
+.item button{width:100%;margin-top:10px}
+form{background:white;border:1px solid #f1dfe3;padding:17px;border-radius:16px;margin-top:22px}
+label{display:block;font-size:14px;font-weight:650;margin:13px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ddcbd1;border-radius:10px;font:inherit;background:white}
+textarea{resize:vertical}
+.full{width:100%;margin-top:18px;font-size:16px;padding:14px}
+footer{text-align:center;color:#786871;padding:25px;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">FRESH • FRUITY • THICK</div>
+  <h1>🥤 Thickletto</h1>
+  <p>Real fruit. No ice. No ice cream.</p>
+  <p>Freshly made thick shakes ❤️</p>
+</header>
+
+<main>
+  <h2>Our Menu 🥤</h2>
+  <p class="note">Choose your favourite shake and place an order.</p>
+  <div class="menu" id="menu"></div>
+
+  <form id="order">
+    <h2>Place Your Order</h2>
+    <label for="name">Your name</label>
+    <input id="name" required placeholder="Enter your name">
+
+    <label for="phone">Your contact number</label>
+    <input id="phone" type="tel" placeholder="Optional">
+
+    <label for="flavour">Choose flavour</label>
+    <select id="flavour">
+      <option>Chocolate</option>
+      <option>Mango</option>
+      <option>Strawberry</option>
+      <option>Rasmalai</option>
+    </select>
+
+    <label for="qty">Quantity</label>
+    <input id="qty" type="number" min="1" max="50" value="1" required>
+
+    <label for="delivery">Order type</label>
+    <select id="delivery">
+      <option>Pickup</option>
+      <option>Home delivery - confirm availability</option>
+    </select>
+
+    <label for="address">Address / special instructions</label>
+    <textarea id="address" rows="2" placeholder="Optional"></textarea>
+
+    <p>Estimated total: <strong id="total">₹69</strong></p>
+    <p class="note">Final price and delivery will be confirmed on WhatsApp.</p>
+    <button class="full" type="submit">Order on WhatsApp ↗</button>
+  </form>
+</main>
+
+<footer>Thickletto · Made fresh with love</footer>
+
+<script>
+const drinks=[
+ {name:"Chocolate",price:69,emoji:"🍫"},
+ {name:"Mango",price:69,emoji:"🥭"},
+ {name:"Strawberry",price:69,emoji:"🍓"},
+ {name:"Rasmalai",price:79,emoji:"🥛"}
+];
+
+// IMPORTANT: Replace this with your WhatsApp number.
+// India example: "91" + 10-digit mobile number.
+const WHATSAPP_NUMBER="91XXXXXXXXXX";
+
+const menu=document.getElementById("menu");
+const flavour=document.getElementById("flavour");
+const qty=document.getElementById("qty");
+const total=document.getElementById("total");
+
+drinks.forEach((d,i)=>{
+ const card=document.createElement("article");
+ card.className="item";
+ const emoji=document.createElement("div");
+ emoji.className="emoji";
+ emoji.textContent=d.emoji;
+ const title=document.createElement("h3");
+ title.textContent=d.name+" Shake";
+ const price=document.createElement("div");
+ price.className="price";
+ price.textContent="₹"+d.price;
+ const add=document.createElement("button");
+ add.type="button";
+ add.textContent="Choose";
+ add.onclick=()=>{
+   flavour.selectedIndex=i;
+   updateTotal();
+   document.getElementById("order").scrollIntoView({behavior:"smooth"});
+ };
+ card.append(emoji,title,price,add);
+ menu.appendChild(card);
+});
+
+function updateTotal(){
+ const d=drinks[flavour.selectedIndex];
+ const q=Math.max(1,Math.min(50,Number(qty.value)||1));
+ total.textContent="₹"+(d.price*q);
+}
+flavour.addEventListener("change",updateTotal);
+qty.addEventListener("input",updateTotal);
+
+document.getElementById("order").addEventListener("submit",e=>{
+ e.preventDefault();
+ if(!/^91\d{10}$/.test(WHATSAPP_NUMBER)){
+   alert("Website owner: Please set your WhatsApp number in the code first.");
+   return;
+ }
+ const d=drinks[flavour.selectedIndex];
+ const q=Math.max(1,Math.min(50,Number(qty.value)||1));
+ const message=[
+  "Hello Thickletto! I want to place an order.",
+  "Name: "+document.getElementById("name").value,
+  "Contact: "+(document.getElementById("phone").value||"Not provided"),
+  "Flavour: "+d.name,
+  "Quantity: "+q,
+  "Estimated total: ₹"+(d.price*q),
+  "Order type: "+document.getElementById("delivery").value,
+  "Address/Instructions: "+(document.getElementById("address").value||"Not provided")
+ ].join("\n");
+ window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message),"_blank");
+});
+updateTotal();
+</script>
+</body>
+</html>
