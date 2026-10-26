@@ -3,152 +3,267 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#9f1239">
-<title>Thickletto | Fresh Thick Shakes</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#8f1238">
+<title>Thickletto | Order Online</title>
 <style>
+:root{--red:#9f1239;--pink:#fff0f4;--ink:#30212a;--muted:#766570;--line:#f0dce2}
 *{box-sizing:border-box}
-body{margin:0;background:#fff8f3;color:#29212a;font-family:system-ui,sans-serif}
-header{background:linear-gradient(140deg,#9f1239,#e11d48);color:white;text-align:center;padding:32px 18px 28px}
-.brand{font-size:13px;letter-spacing:4px;font-weight:800}
+body{margin:0;background:#fffaf7;color:var(--ink);font-family:system-ui,-apple-system,sans-serif}
+header{background:linear-gradient(140deg,#5f0c29,#c51e50);color:white;text-align:center;padding:32px 16px}
+.brand{font-size:12px;letter-spacing:4px;font-weight:800}
 h1{font-size:40px;margin:10px 0}
-header p{margin:5px auto;max-width:340px}
-main{max-width:650px;margin:auto;padding:18px}
-h2{font-size:22px}
-.note{color:#786871;font-size:13px}
-.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.item{background:white;border:1px solid #f1dfe3;border-radius:16px;padding:14px}
-.emoji{font-size:36px}
-.item h3{margin:8px 0 4px;font-size:16px}
-.price{font-weight:800;color:#be123c;font-size:20px}
-button{border:0;border-radius:10px;padding:11px;background:#be123c;color:white;font-weight:700;cursor:pointer}
-.item button{width:100%;margin-top:10px}
-form{background:white;border:1px solid #f1dfe3;padding:17px;border-radius:16px;margin-top:22px}
+header p{margin:5px;color:#ffe4ec}
+main{max-width:850px;margin:auto;padding:17px}
+h2{font-size:22px;margin:14px 0 8px}
+.note{color:var(--muted);font-size:13px;line-height:1.5}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ddcbd1;border-radius:10px;background:white;color:var(--ink);font:inherit}
 label{display:block;font-size:14px;font-weight:650;margin:13px 0 6px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #ddcbd1;border-radius:10px;font:inherit;background:white}
-textarea{resize:vertical}
-.full{width:100%;margin-top:18px;font-size:16px;padding:14px}
-footer{text-align:center;color:#786871;padding:25px;font-size:12px}
+.filters{display:flex;gap:8px;overflow-x:auto;padding:12px 0}
+.filters button{white-space:nowrap;border:1px solid var(--line);border-radius:22px;padding:10px 13px;background:white;color:var(--ink)}
+.filters button.active{background:var(--red);color:white}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.item{background:white;border:1px solid var(--line);border-radius:14px;padding:13px;display:flex;flex-direction:column;min-width:0}
+.item .emoji{font-size:26px}
+.item h3{font-size:15px;line-height:1.35;margin:8px 0}
+.price{font-weight:800;color:var(--red);font-size:19px;margin-top:auto;padding:5px 0}
+.add,.primary{border:0;border-radius:10px;padding:11px;background:var(--red);color:white;font-weight:750;cursor:pointer}
+.add{margin-top:6px}
+.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:22px}
+.cart-row{display:flex;align-items:center;gap:7px;padding:10px 0;border-bottom:1px solid var(--line)}
+.cart-name{flex:1;min-width:0;font-size:14px;overflow-wrap:anywhere}
+.cart-row button{background:var(--pink);border:1px solid var(--line);border-radius:7px;padding:5px 9px}
+.cart-row .remove{color:#a00;background:white;border:0}
+.total{display:flex;justify-content:space-between;font-size:20px;font-weight:800;padding:15px 0}
+.primary{width:100%;background:#16834a;font-size:16px;padding:14px;margin-top:17px}
+.clear{background:none;border:0;color:var(--red);padding:10px 0;cursor:pointer}
+.empty{grid-column:1/-1;text-align:center;padding:24px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:25px 12px;font-size:12px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">FRESH • FRUITY • THICK</div>
-  <h1>🥤 Thickletto</h1>
-  <p>Real fruit. No ice. No ice cream.</p>
-  <p>Freshly made thick shakes ❤️</p>
+ <div class="brand">FRESH • FRUITY • DELICIOUS</div>
+ <h1>🥤 Thickletto</h1>
+ <p>Thick Shakes · Cold Coffees · Sweet Treats</p>
+ <p>Made fresh, made for you ❤️</p>
 </header>
 
 <main>
-  <h2>Our Menu 🥤</h2>
-  <p class="note">Choose your favourite shake and place an order.</p>
-  <div class="menu" id="menu"></div>
+ <h2>Explore Our Menu</h2>
+ <p class="note">Choose your favourites and add them to your cart.</p>
+ <input id="search" type="search" placeholder="🔎 Search your favourite flavour..." aria-label="Search menu">
+ <nav id="filters" class="filters" aria-label="Menu categories"></nav>
+ <div id="count" class="note"></div>
+ <section id="menu" class="grid"></section>
 
-  <form id="order">
-    <h2>Place Your Order</h2>
-    <label for="name">Your name</label>
-    <input id="name" required placeholder="Enter your name">
+ <section class="panel">
+  <h2>🛒 Your Cart</h2>
+  <p class="note">Change quantities or remove items before ordering.</p>
+  <div id="cart"></div>
+  <div class="total"><span>Total</span><span id="total">₹0</span></div>
+  <button type="button" class="clear" id="clear">Clear cart</button>
+ </section>
 
-    <label for="phone">Your contact number</label>
-    <input id="phone" type="tel" placeholder="Optional">
+ <form id="order" class="panel">
+  <h2>📦 Place Your Order</h2>
+  <label for="customer">Your name *</label>
+  <input id="customer" required maxlength="80" placeholder="Enter your name">
 
-    <label for="flavour">Choose flavour</label>
-    <select id="flavour">
-      <option>Chocolate</option>
-      <option>Mango</option>
-      <option>Strawberry</option>
-      <option>Rasmalai</option>
-    </select>
+  <label for="phone">Your contact number</label>
+  <input id="phone" type="tel" maxlength="20" placeholder="Optional">
 
-    <label for="qty">Quantity</label>
-    <input id="qty" type="number" min="1" max="50" value="1" required>
+  <label for="type">Order type *</label>
+  <select id="type">
+   <option value="Pickup">Shop pickup</option>
+   <option value="Home delivery">Home delivery</option>
+  </select>
 
-    <label for="delivery">Order type</label>
-    <select id="delivery">
-      <option>Pickup</option>
-      <option>Home delivery - confirm availability</option>
-    </select>
+  <label for="address">Delivery address / instructions</label>
+  <textarea id="address" rows="3" maxlength="500" placeholder="Address for delivery or special instructions"></textarea>
 
-    <label for="address">Address / special instructions</label>
-    <textarea id="address" rows="2" placeholder="Optional"></textarea>
-
-    <p>Estimated total: <strong id="total">₹69</strong></p>
-    <p class="note">Final price and delivery will be confirmed on WhatsApp.</p>
-    <button class="full" type="submit">Order on WhatsApp ↗</button>
-  </form>
+  <p class="note">Your order will open in WhatsApp for confirmation. Delivery availability and any delivery fee will be confirmed by the shop.</p>
+  <button class="primary" type="submit">Order on WhatsApp ↗</button>
+ </form>
 </main>
 
-<footer>Thickletto · Made fresh with love</footer>
+<footer>Thickletto · Thank you for choosing us ❤️</footer>
 
 <script>
-const drinks=[
- {name:"Chocolate",price:69,emoji:"🍫"},
- {name:"Mango",price:69,emoji:"🥭"},
- {name:"Strawberry",price:69,emoji:"🍓"},
- {name:"Rasmalai",price:79,emoji:"🥛"}
+const WHATSAPP_NUMBER = "919113794690";
+
+const categories = [
+ {name:"Exotic Fruits Thick Shakes",emoji:"🍓",items:[
+  ["Strawberry",59],["Butter Nuts",59],["Blackcurrent",59],
+  ["Green Apple",69],["Mango Munch",69],["Forest Fruit",69],
+  ["Ricco Berries",69],["Blueberry Mello",69]
+ ]},
+ {name:"Cold Coffees",emoji:"☕",items:[
+  ["Dark Roast",69],["Hazelnut",69],["Irish Mocha",69],
+  ["French Vanilla",69],["Caramel Cream",69],
+  ["Lady Kawa",79],["Coffee Almonds",79]
+ ]},
+ {name:"Classic Thick Shakes",emoji:"🥤",items:[
+  ["Rasmalai",69],["Paan Shot",69],["Red Valvet",69]
+ ]},
+ {name:"Coffee Cake Shakes",emoji:"🍰",items:[
+  ["Irish Tortas",79],["Cobnut Brownie",79],
+  ["Toffee Fudge",79],["Mango Mousee",79]
+ ]},
+ {name:"Cheesecake Thick Shakes",emoji:"🍰",items:[
+  ["Original Cheesecake",69],["Strawberry Cheesecake",69],
+  ["Mango Cheesecake",79],["Chocolate Cheesecake",79],
+  ["Blueberry Cheesecake",79],["Red Valvet Cheesecake",79]
+ ]},
+ {name:"Chocolate Thick Shakes",emoji:"🍫",items:[
+  ["Belgium Chocolate",79],["Choco Kitkat",79],["Choco Nuts",79],
+  ["Oreo Ultimate",79],["Choco Chips",79],
+  ["Brownie Blast",79],["Choco Almonds",79]
+ ]},
+ {name:"Extras",emoji:"➕",items:[
+  ["Extra Nuts",20],["Extra Chips",20],["Extra Kitkat",20],
+  ["Extra Brownie",20],["Extra Cookies",20],["Extra Almonds",20]
+ ]}
 ];
 
-// IMPORTANT: Replace this with your WhatsApp number.
-// India example: "91" + 10-digit mobile number.
-const WHATSAPP_NUMBER="91XXXXXXXXXX";
+const products = categories.flatMap((cat,ci)=>
+ cat.items.map(([name,price],ii)=>({
+  id:ci+"-"+ii,name,price,category:cat.name,emoji:cat.emoji
+ }))
+);
+const cart = {};
+let activeCategory = "All";
 
-const menu=document.getElementById("menu");
-const flavour=document.getElementById("flavour");
-const qty=document.getElementById("qty");
-const total=document.getElementById("total");
+const menu = document.getElementById("menu");
+const filters = document.getElementById("filters");
+const search = document.getElementById("search");
+const cartBox = document.getElementById("cart");
+const totalBox = document.getElementById("total");
+const countBox = document.getElementById("count");
 
-drinks.forEach((d,i)=>{
- const card=document.createElement("article");
- card.className="item";
- const emoji=document.createElement("div");
- emoji.className="emoji";
- emoji.textContent=d.emoji;
- const title=document.createElement("h3");
- title.textContent=d.name+" Shake";
- const price=document.createElement("div");
- price.className="price";
- price.textContent="₹"+d.price;
- const add=document.createElement("button");
- add.type="button";
- add.textContent="Choose";
- add.onclick=()=>{
-   flavour.selectedIndex=i;
-   updateTotal();
-   document.getElementById("order").scrollIntoView({behavior:"smooth"});
- };
- card.append(emoji,title,price,add);
- menu.appendChild(card);
-});
-
-function updateTotal(){
- const d=drinks[flavour.selectedIndex];
- const q=Math.max(1,Math.min(50,Number(qty.value)||1));
- total.textContent="₹"+(d.price*q);
+function makeButton(text,fn,cls=""){
+ const b=document.createElement("button");
+ b.type="button";b.textContent=text;b.className=cls;
+ b.addEventListener("click",fn);
+ return b;
 }
-flavour.addEventListener("change",updateTotal);
-qty.addEventListener("input",updateTotal);
+
+function renderFilters(){
+ filters.replaceChildren();
+ ["All",...categories.map(c=>c.name)].forEach(name=>{
+  filters.appendChild(makeButton(
+   name==="All"?"All":name,
+   ()=>{activeCategory=name;renderFilters();renderMenu();},
+   activeCategory===name?"active":""
+  ));
+ });
+}
+
+function renderMenu(){
+ const q=search.value.trim().toLowerCase();
+ const list=products.filter(p=>
+  (activeCategory==="All"||p.category===activeCategory)&&
+  (p.name+" "+p.category).toLowerCase().includes(q)
+ );
+ countBox.textContent=list.length+" items";
+ menu.replaceChildren();
+
+ if(!list.length){
+  const empty=document.createElement("div");
+  empty.className="empty";empty.textContent="No items found. Try another search.";
+  menu.appendChild(empty);return;
+ }
+
+ list.forEach(p=>{
+  const card=document.createElement("article");card.className="item";
+  const emoji=document.createElement("div");emoji.className="emoji";emoji.textContent=p.emoji;
+  const title=document.createElement("h3");title.textContent=p.name;
+  const cat=document.createElement("div");cat.className="note";cat.textContent=p.category;
+  const price=document.createElement("div");price.className="price";price.textContent="₹"+p.price;
+  const add=makeButton("＋ Add",()=>{cart[p.id]=(cart[p.id]||0)+1;renderCart();},"add");
+  card.append(emoji,title,cat,price,add);menu.appendChild(card);
+ });
+}
+
+function renderCart(){
+ cartBox.replaceChildren();
+ let total=0,items=0;
+ products.forEach(p=>{
+  const qty=cart[p.id]||0;
+  if(!qty)return;
+  total+=p.price*qty;items+=qty;
+
+  const row=document.createElement("div");row.className="cart-row";
+  const name=document.createElement("div");name.className="cart-name";
+  name.textContent=p.name+" · ₹"+p.price;
+  const minus=makeButton("−",()=>{cart[p.id]--;if(cart[p.id]<=0)delete cart[p.id];renderCart();});
+  const amount=document.createElement("span");amount.textContent=qty;
+  const plus=makeButton("+",()=>{cart[p.id]++;renderCart();});
+  const remove=makeButton("✕",()=>{delete cart[p.id];renderCart();},"remove");
+  remove.setAttribute("aria-label","Remove "+p.name);
+  row.append(name,minus,amount,plus,remove);cartBox.appendChild(row);
+ });
+ if(!items){
+  const empty=document.createElement("p");empty.className="note";
+  empty.textContent="Your cart is empty. Add something delicious!";
+  cartBox.appendChild(empty);
+ }
+ totalBox.textContent="₹"+total;
+}
+
+search.addEventListener("input",renderMenu);
+document.getElementById("clear").addEventListener("click",()=>{
+ Object.keys(cart).forEach(k=>delete cart[k]);renderCart();
+});
 
 document.getElementById("order").addEventListener("submit",e=>{
  e.preventDefault();
- if(!/^91\d{10}$/.test(WHATSAPP_NUMBER)){
-   alert("Website owner: Please set your WhatsApp number in the code first.");
-   return;
+
+ const chosen=products.filter(p=>cart[p.id]);
+ if(!chosen.length){
+  alert("Bhai, pehle menu se koi item cart mein add karo.");
+  return;
  }
- const d=drinks[flavour.selectedIndex];
- const q=Math.max(1,Math.min(50,Number(qty.value)||1));
+
+ const name=document.getElementById("customer").value.trim();
+ const phone=document.getElementById("phone").value.trim();
+ const type=document.getElementById("type").value;
+ const address=document.getElementById("address").value.trim();
+
+ if(type==="Home delivery"&&!address){
+  alert("Home delivery ke liye address bharo.");return;
+ }
+
+ let total=0;
+ const lines=chosen.map(p=>{
+  const qty=cart[p.id];total+=p.price*qty;
+  return p.name+" x "+qty+" = ₹"+(p.price*qty);
+ });
+
  const message=[
-  "Hello Thickletto! I want to place an order.",
-  "Name: "+document.getElementById("name").value,
-  "Contact: "+(document.getElementById("phone").value||"Not provided"),
-  "Flavour: "+d.name,
-  "Quantity: "+q,
-  "Estimated total: ₹"+(d.price*q),
-  "Order type: "+document.getElementById("delivery").value,
-  "Address/Instructions: "+(document.getElementById("address").value||"Not provided")
+  "Hello Thickletto! I would like to place an order.",
+  "",
+  "Name: "+name,
+  "Contact: "+(phone||"Not provided"),
+  "Order type: "+type,
+  ...(address?["Address / instructions: "+address]:[]),
+  "",
+  "ORDER:",
+  ...lines,
+  "",
+  "Estimated total: ₹"+total,
+  "",
+  "Please confirm availability and final price."
  ].join("\n");
- window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message),"_blank");
+
+ const url="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message);
+ window.open(url,"_blank");
 });
-updateTotal();
+
+renderFilters();
+renderMenu();
+renderCart();
 </script>
 </body>
 </html>
