@@ -1,269 +1,133 @@
-
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#8f1238">
-<title>Thickletto | Order Online</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#202b43">
+<title>Thickletto POS Training</title>
 <style>
-:root{--red:#9f1239;--pink:#fff0f4;--ink:#30212a;--muted:#766570;--line:#f0dce2}
-*{box-sizing:border-box}
-body{margin:0;background:#fffaf7;color:var(--ink);font-family:system-ui,-apple-system,sans-serif}
-header{background:linear-gradient(140deg,#5f0c29,#c51e50);color:white;text-align:center;padding:32px 16px}
-.brand{font-size:12px;letter-spacing:4px;font-weight:800}
-h1{font-size:40px;margin:10px 0}
-header p{margin:5px;color:#ffe4ec}
-main{max-width:850px;margin:auto;padding:17px}
-h2{font-size:22px;margin:14px 0 8px}
-.note{color:var(--muted);font-size:13px;line-height:1.5}
-input,select,textarea{width:100%;padding:12px;border:1px solid #ddcbd1;border-radius:10px;background:white;color:var(--ink);font:inherit}
-label{display:block;font-size:14px;font-weight:650;margin:13px 0 6px}
-.filters{display:flex;gap:8px;overflow-x:auto;padding:12px 0}
-.filters button{white-space:nowrap;border:1px solid var(--line);border-radius:22px;padding:10px 13px;background:white;color:var(--ink)}
-.filters button.active{background:var(--red);color:white}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.item{background:white;border:1px solid var(--line);border-radius:14px;padding:13px;display:flex;flex-direction:column;min-width:0}
-.item .emoji{font-size:26px}
-.item h3{font-size:15px;line-height:1.35;margin:8px 0}
-.price{font-weight:800;color:var(--red);font-size:19px;margin-top:auto;padding:5px 0}
-.add,.primary{border:0;border-radius:10px;padding:11px;background:var(--red);color:white;font-weight:750;cursor:pointer}
-.add{margin-top:6px}
-.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:22px}
-.cart-row{display:flex;align-items:center;gap:7px;padding:10px 0;border-bottom:1px solid var(--line)}
-.cart-name{flex:1;min-width:0;font-size:14px;overflow-wrap:anywhere}
-.cart-row button{background:var(--pink);border:1px solid var(--line);border-radius:7px;padding:5px 9px}
-.cart-row .remove{color:#a00;background:white;border:0}
-.total{display:flex;justify-content:space-between;font-size:20px;font-weight:800;padding:15px 0}
-.primary{width:100%;background:#16834a;font-size:16px;padding:14px;margin-top:17px}
-.clear{background:none;border:0;color:var(--red);padding:10px 0;cursor:pointer}
-.empty{grid-column:1/-1;text-align:center;padding:24px;color:var(--muted)}
-footer{text-align:center;color:var(--muted);padding:25px 12px;font-size:12px}
-@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+:root{--navy:#202b43;--blue:#3159a6;--bg:#f4f6fa;--card:#fff;--muted:#657085;--line:#e1e6ef;--green:#16794b;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033}
+header{background:var(--navy);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:3}
+header h1{font-size:21px;margin:0 0 4px}header p{margin:0;color:#d6deee;font-size:12px}
+nav{display:flex;gap:8px;overflow:auto;padding:10px;background:white;border-bottom:1px solid var(--line);position:sticky;top:72px;z-index:2}
+nav button{white-space:nowrap;border:1px solid var(--line);border-radius:20px;background:white;padding:9px 12px;font-weight:650;color:#344054}
+nav button.active{background:var(--blue);color:white;border-color:var(--blue)}
+main{max-width:760px;margin:auto;padding:14px 12px 40px}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px #17203308}
+h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 10px}
+.small{font-size:12px;color:var(--muted);line-height:1.45}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:9px 0}.row>label{flex:1}
+button,.btn{cursor:pointer;font:inherit}.primary{background:var(--blue);color:white;border:0;border-radius:10px;padding:11px 13px;font-weight:700}.secondary{background:white;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:650}.danger{color:var(--red);border-color:#f2c6c3}.full{width:100%}
+input,select{font:inherit;border:1px solid #cfd6e3;border-radius:9px;padding:10px;width:100%;background:white;color:#172033}
+label{font-size:13px;font-weight:650}.field{display:grid;gap:6px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.product{border:1px solid var(--line);border-radius:12px;background:white;text-align:left;padding:12px;min-height:82px}
+.product strong{display:block;font-size:14px;margin-bottom:8px}.product span{color:var(--blue);font-weight:800}
+.total{font-size:27px;font-weight:850}.pill{font-size:11px;background:#fff2cc;color:#7a5200;border-radius:20px;padding:5px 8px;font-weight:800}
+.line{border-top:1px solid var(--line);margin:12px 0}.itemrow{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.qtybtn{border:1px solid var(--line);border-radius:8px;background:white;width:30px;height:30px;font-weight:800}
+.kpi{background:#f5f7fb;border-radius:12px;padding:12px}.kpi small{display:block;color:var(--muted);margin-bottom:5px}.kpi strong{font-size:20px}
+.notice{padding:10px;border-radius:10px;background:#eef4ff;color:#24467f;font-size:12px;line-height:1.5}
+.good{color:var(--green);font-weight:700}.bad{color:var(--red);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{text-align:left;border-bottom:1px solid var(--line);padding:9px 5px}th{color:var(--muted)}
+@media(min-width:600px){main{padding:20px}nav{justify-content:center}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 <body>
-<header>
- <div class="brand">FRESH • FRUITY • DELICIOUS</div>
- <h1>🥤 Thickletto</h1>
- <p>Thick Shakes · Cold Coffees · Sweet Treats</p>
- <p>Made fresh, made for you ❤️</p>
-</header>
-
+<header><h1>🥤 Thickletto POS Training</h1><p>Practice simulator • Not connected to Petpooja or real payments</p></header>
+<nav id="tabs">
+<button class="active" data-tab="billing">Billing</button><button data-tab="stock">Inventory</button><button data-tab="purchase">Purchase</button><button data-tab="sales">Sales Register</button><button data-tab="reports">Day-End</button><button data-tab="learn">Lessons</button>
+</nav>
 <main>
- <h2>Explore Our Menu</h2>
- <p class="note">Choose your favourites and add them to your cart.</p>
- <input id="search" type="search" placeholder="🔎 Search your favourite flavour..." aria-label="Search menu">
- <nav id="filters" class="filters" aria-label="Menu categories"></nav>
- <div id="count" class="note"></div>
- <section id="menu" class="grid"></section>
-
- <section class="panel">
-  <h2>🛒 Your Cart</h2>
-  <p class="note">Change quantities or remove items before ordering.</p>
-  <div id="cart"></div>
-  <div class="total"><span>Total</span><span id="total">₹0</span></div>
-  <button type="button" class="clear" id="clear">Clear cart</button>
- </section>
-
- <form id="order" class="panel">
-  <h2>📦 Place Your Order</h2>
-  <label for="customer">Your name *</label>
-  <input id="customer" required maxlength="80" placeholder="Enter your name">
-
-  <label for="phone">Your contact number</label>
-  <input id="phone" type="tel" maxlength="20" placeholder="Optional">
-
-  <label for="type">Order type *</label>
-  <select id="type">
-   <option value="Pickup">Shop pickup</option>
-   <option value="Home delivery">Home delivery</option>
-  </select>
-
-  <label for="address">Delivery address / instructions</label>
-  <textarea id="address" rows="3" maxlength="500" placeholder="Address for delivery or special instructions"></textarea>
-
-  <p class="note">Your order will open in WhatsApp for confirmation. Delivery availability and any delivery fee will be confirmed by the shop.</p>
-  <button class="primary" type="submit">Order on WhatsApp ↗</button>
- </form>
+<section id="billing" class="panel active">
+<div class="card"><div class="row"><h2>1. Menu — item add karo</h2><span class="pill">DEMO</span></div><div class="grid" id="menu"></div></div>
+<div class="card"><h2>2. Current Order</h2>
+<div class="field"><label>Order type</label><select id="orderType"><option>Takeaway</option><option>Dine-in</option><option>Delivery</option></select></div>
+<div id="cart"><p class="small">Menu mein kisi item par tap karke order shuru karo.</p></div>
+<div class="line"></div><div class="row"><span>Total bill</span><span class="total" id="billTotal">₹0</span></div>
+<div class="field"><label>Discount (%)</label><select id="discount"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option><option value="30">30%</option></select></div>
+<div class="row"><span>Discount amount</span><strong id="discountAmt">₹0</strong></div><div class="row"><span>Payable</span><strong id="payable">₹0</strong></div>
+<div class="field"><label>Payment mode</label><select id="payment"><option>Cash</option><option>UPI (demo)</option><option>Card (demo)</option></select></div>
+<div class="field" id="cashField"><label>Cash received (₹)</label><input id="cashReceived" type="number" min="0" value="500"></div>
+<div class="row"><span>Change to return</span><strong id="change">₹500</strong></div>
+<div class="row"><button class="secondary" id="clearCart">Clear order</button><button class="secondary" id="kotBtn">Prepare demo KOT</button></div>
+<div id="kotArea"></div><button class="primary full" id="completeBill">Complete demo bill</button>
+<p class="small">Complete karne par entry sirf is demo app ke current session mein record hogi. UPI/card payment asli mein nahi hoti.</p></div>
+<div class="card"><h3>Recent demo receipts</h3><div id="receipts"><p class="small">Abhi koi bill complete nahi hua.</p></div></div>
+</section>
+<section id="stock" class="panel">
+<div class="card"><h2>Inventory / Milk Stock</h2><p class="small">Formula: Opening + Received − Used − Wastage = Closing.</p>
+<div class="field"><label>Opening stock (litre)</label><input id="opening" type="number" min="0" step=".1" value="10"></div>
+<div class="field"><label>Milk received (litre)</label><input id="received" type="number" min="0" step=".1" value="5"></div>
+<div class="field"><label>Milk used (litre)</label><input id="used" type="number" min="0" step=".1" value="6"></div>
+<div class="field"><label>Wastage (litre)</label><input id="waste" type="number" min="0" step=".1" value="0"></div>
+<div class="kpi"><small>Calculated closing stock</small><strong id="closingStock">9 L</strong></div><p id="stockNote" class="small">Physical stock se match karna yaad rakho.</p>
+<div class="line"></div><h3>Quick entry add karo</h3><div class="field"><label>Entry type</label><select id="stockType"><option value="received">Milk received</option><option value="used">Milk used</option><option value="waste">Wastage</option></select></div><div class="field"><label>Quantity (litre)</label><input id="stockQty" type="number" min=".1" step=".1" value="1"></div><button class="primary full" id="addStock">Add stock entry</button><button class="secondary full" id="resetStock" style="margin-top:8px">Reset stock demo</button></div>
+</section>
+<section id="purchase" class="panel">
+<div class="card"><h2>Purchase Register</h2><p class="small">Supplier invoice se quantity aur rate bhar kar practice karo.</p>
+<div class="field"><label>Supplier name</label><input id="supplier" value="Fresh Dairy"></div>
+<div class="grid">
+<div class="field"><label>Milk quantity (L)</label><input id="pMilkQty" type="number" min="0" value="10"></div><div class="field"><label>Rate ₹/L</label><input id="pMilkRate" type="number" min="0" value="60"></div>
+<div class="field"><label>Sugar quantity (kg)</label><input id="pSugarQty" type="number" min="0" value="2"></div><div class="field"><label>Rate ₹/kg</label><input id="pSugarRate" type="number" min="0" value="50"></div>
+<div class="field"><label>Cups quantity</label><input id="pCupQty" type="number" min="0" value="100"></div><div class="field"><label>Rate ₹/cup</label><input id="pCupRate" type="number" min="0" value="2"></div>
+</div><div class="row"><span>Invoice total</span><span class="total" id="purchaseTotal">₹900</span></div>
+<button class="primary full" id="savePurchase">Save demo purchase</button><div id="purchaseSaved"></div>
+<div class="notice" style="margin-top:10px">Purchase entry ka matlab payment ho jaana nahi hai. Credit purchase ka payment alag record hota hai.</div></div>
+<div class="card"><h3>Saved demo purchases</h3><div id="purchaseList"><p class="small">Abhi koi purchase save nahi hui.</p></div></div>
+</section>
+<section id="sales" class="panel">
+<div class="card"><h2>Daily Sales Register</h2><p class="small">Excel-style practice. Quantity ya rate badlo, totals update honge.</p><div id="salesTable"></div><div class="row"><span>Total sale</span><span class="total" id="salesTotal">₹444</span></div><button class="secondary full" id="resetSales">Reset sales practice</button></div>
+<div class="card"><h3>Excel formulas yaad rakho</h3><p><code>=B2*C2</code> — quantity × rate</p><p><code>=SUM(D2:D4)</code> — item totals ko jodna</p></div>
+</section>
+<section id="reports" class="panel">
+<div class="card"><h2>Day-End Report</h2><p class="small">Is session mein complete kiye demo bills ka summary.</p>
+<div class="grid"><div class="kpi"><small>Gross item total</small><strong id="rGross">₹0</strong></div><div class="kpi"><small>Discounts</small><strong id="rDiscount">₹0</strong></div><div class="kpi"><small>Net sales</small><strong id="rNet">₹0</strong></div><div class="kpi"><small>Completed bills</small><strong id="rCount">0</strong></div></div>
+<div class="line"></div><h3>Payment breakdown</h3><div id="paymentBreakdown"></div><div class="notice" style="margin-top:12px">Asli closing mein cash drawer gino, UPI/card settlement verify karo aur refunds/cancellations ko include karo. Ye report sirf demo bills ka hai.</div><button class="secondary full" id="resetAll" style="margin-top:12px">Reset all demo data</button></div>
+</section>
+<section id="learn" class="panel">
+<div class="card"><h2>Mini lessons</h2>
+<h3>1. Billing</h3><p>Menu item select karo → quantity check karo → discount/total verify karo → payment mode select karo → demo bill complete karo.</p>
+<h3>2. KOT</h3><p>KOT kitchen ko order batata hai. Customer bill aur payment record alag hote hain.</p>
+<h3>3. Cancellation & refund</h3><p>Bill final ho chuka ho toh authorized manager process follow karo. Refund entry aur actual payment return alag ho sakte hain.</p>
+<h3>4. Inventory</h3><p>Opening + received − used − wastage = closing stock. Physical stock se compare karo.</p>
+<h3>5. Purchase</h3><p>Supplier invoice number/date, items, quantity, rate, tax aur total verify karke authorized process se save karo.</p>
+<h3>6. Day-end</h3><p>Cash, UPI, card, discounts, cancelled bills aur refunds ko reconcile karo.</p>
+<div class="notice">Ye learning simulator hai, official Petpooja interface nahi. Asli buttons aur features restaurant ke setup ke mutabik alag ho sakte hain.</div></div>
+</section>
 </main>
-
-<footer>Thickletto · Thank you for choosing us ❤️</footer>
-
 <script>
-const WHATSAPP_NUMBER = "919113794690";
-
-const categories = [
- {name:"Exotic Fruits Thick Shakes",emoji:"🍓",items:[
-  ["Strawberry",59],["Butter Nuts",59],["Blackcurrent",59],
-  ["Green Apple",69],["Mango Munch",69],["Forest Fruit",69],
-  ["Ricco Berries",69],["Blueberry Mello",69]
- ]},
- {name:"Cold Coffees",emoji:"☕",items:[
-  ["Dark Roast",69],["Hazelnut",69],["Irish Mocha",69],
-  ["French Vanilla",69],["Caramel Cream",69],
-  ["Lady Kawa",79],["Coffee Almonds",79]
- ]},
- {name:"Classic Thick Shakes",emoji:"🥤",items:[
-  ["Rasmalai",69],["Paan Shot",69],["Red Valvet",69]
- ]},
- {name:"Coffee Cake Shakes",emoji:"🍰",items:[
-  ["Irish Tortas",79],["Cobnut Brownie",79],
-  ["Toffee Fudge",79],["Mango Mousee",79]
- ]},
- {name:"Cheesecake Thick Shakes",emoji:"🍰",items:[
-  ["Original Cheesecake",69],["Strawberry Cheesecake",69],
-  ["Mango Cheesecake",79],["Chocolate Cheesecake",79],
-  ["Blueberry Cheesecake",79],["Red Valvet Cheesecake",79]
- ]},
- {name:"Chocolate Thick Shakes",emoji:"🍫",items:[
-  ["Belgium Chocolate",79],["Choco Kitkat",79],["Choco Nuts",79],
-  ["Oreo Ultimate",79],["Choco Chips",79],
-  ["Brownie Blast",79],["Choco Almonds",79]
- ]},
- {name:"Extras",emoji:"➕",items:[
-  ["Extra Nuts",20],["Extra Chips",20],["Extra Kitkat",20],
-  ["Extra Brownie",20],["Extra Cookies",20],["Extra Almonds",20]
- ]}
-];
-
-const products = categories.flatMap((cat,ci)=>
- cat.items.map(([name,price],ii)=>({
-  id:ci+"-"+ii,name,price,category:cat.name,emoji:cat.emoji
- }))
-);
-const cart = {};
-let activeCategory = "All";
-
-const menu = document.getElementById("menu");
-const filters = document.getElementById("filters");
-const search = document.getElementById("search");
-const cartBox = document.getElementById("cart");
-const totalBox = document.getElementById("total");
-const countBox = document.getElementById("count");
-
-function makeButton(text,fn,cls=""){
- const b=document.createElement("button");
- b.type="button";b.textContent=text;b.className=cls;
- b.addEventListener("click",fn);
- return b;
-}
-
-function renderFilters(){
- filters.replaceChildren();
- ["All",...categories.map(c=>c.name)].forEach(name=>{
-  filters.appendChild(makeButton(
-   name==="All"?"All":name,
-   ()=>{activeCategory=name;renderFilters();renderMenu();},
-   activeCategory===name?"active":""
-  ));
- });
-}
-
-function renderMenu(){
- const q=search.value.trim().toLowerCase();
- const list=products.filter(p=>
-  (activeCategory==="All"||p.category===activeCategory)&&
-  (p.name+" "+p.category).toLowerCase().includes(q)
- );
- countBox.textContent=list.length+" items";
- menu.replaceChildren();
-
- if(!list.length){
-  const empty=document.createElement("div");
-  empty.className="empty";empty.textContent="No items found. Try another search.";
-  menu.appendChild(empty);return;
- }
-
- list.forEach(p=>{
-  const card=document.createElement("article");card.className="item";
-  const emoji=document.createElement("div");emoji.className="emoji";emoji.textContent=p.emoji;
-  const title=document.createElement("h3");title.textContent=p.name;
-  const cat=document.createElement("div");cat.className="note";cat.textContent=p.category;
-  const price=document.createElement("div");price.className="price";price.textContent="₹"+p.price;
-  const add=makeButton("＋ Add",()=>{cart[p.id]=(cart[p.id]||0)+1;renderCart();},"add");
-  card.append(emoji,title,cat,price,add);menu.appendChild(card);
- });
-}
-
-function renderCart(){
- cartBox.replaceChildren();
- let total=0,items=0;
- products.forEach(p=>{
-  const qty=cart[p.id]||0;
-  if(!qty)return;
-  total+=p.price*qty;items+=qty;
-
-  const row=document.createElement("div");row.className="cart-row";
-  const name=document.createElement("div");name.className="cart-name";
-  name.textContent=p.name+" · ₹"+p.price;
-  const minus=makeButton("−",()=>{cart[p.id]--;if(cart[p.id]<=0)delete cart[p.id];renderCart();});
-  const amount=document.createElement("span");amount.textContent=qty;
-  const plus=makeButton("+",()=>{cart[p.id]++;renderCart();});
-  const remove=makeButton("✕",()=>{delete cart[p.id];renderCart();},"remove");
-  remove.setAttribute("aria-label","Remove "+p.name);
-  row.append(name,minus,amount,plus,remove);cartBox.appendChild(row);
- });
- if(!items){
-  const empty=document.createElement("p");empty.className="note";
-  empty.textContent="Your cart is empty. Add something delicious!";
-  cartBox.appendChild(empty);
- }
- totalBox.textContent="₹"+total;
-}
-
-search.addEventListener("input",renderMenu);
-document.getElementById("clear").addEventListener("click",()=>{
- Object.keys(cart).forEach(k=>delete cart[k]);renderCart();
-});
-
-document.getElementById("order").addEventListener("submit",e=>{
- e.preventDefault();
-
- const chosen=products.filter(p=>cart[p.id]);
- if(!chosen.length){
-  alert("Bhai, pehle menu se koi item cart mein add karo.");
-  return;
- }
-
- const name=document.getElementById("customer").value.trim();
- const phone=document.getElementById("phone").value.trim();
- const type=document.getElementById("type").value;
- const address=document.getElementById("address").value.trim();
-
- if(type==="Home delivery"&&!address){
-  alert("Home delivery ke liye address bharo.");return;
- }
-
- let total=0;
- const lines=chosen.map(p=>{
-  const qty=cart[p.id];total+=p.price*qty;
-  return p.name+" x "+qty+" = ₹"+(p.price*qty);
- });
-
- const message=[
-  "Hello Thickletto! I would like to place an order.",
-  "",
-  "Name: "+name,
-  "Contact: "+(phone||"Not provided"),
-  "Order type: "+type,
-  ...(address?["Address / instructions: "+address]:[]),
-  "",
-  "ORDER:",
-  ...lines,
-  "",
-  "Estimated total: ₹"+total,
-  "",
-  "Please confirm availability and final price."
- ].join("\n");
-
- const url="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message);
- window.open(url,"_blank");
-});
-
-renderFilters();
-renderMenu();
-renderCart();
+const products=[["Chocolate Shake",79],["Mango Shake",69],["Strawberry Shake",79],["Rasmalai Shake",79],["Classic Fries",69],["Veg Nuggets",79]];
+let cart={}, bills=[], purchases=[];
+const money=n=>"₹"+Number(n||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+const num=id=>Math.max(0,Number(document.getElementById(id).value)||0);
+function total(){return Object.entries(cart).reduce((s,[i,q])=>s+products[Number(i)][1]*q,0)}
+function payable(){return total()*(1-num("discount")/100)}
+function renderMenu(){document.getElementById("menu").innerHTML=products.map((p,i)=>`<button class="product" data-i="${i}"><strong>${p[0]}</strong><span>${money(p[1])}　＋</span></button>`).join("");document.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{let i=b.dataset.i;cart[i]=(cart[i]||0)+1;renderCart()})}
+function renderCart(){let keys=Object.keys(cart).filter(i=>cart[i]>0);document.getElementById("cart").innerHTML=keys.length?keys.map(i=>`<div class="itemrow"><span>${products[i][0]}<br><small>${money(products[i][1])} each</small></span><button class="qtybtn" data-minus="${i}">−</button><strong>${cart[i]}</strong><button class="qtybtn" data-plus="${i}">＋</button></div>`).join(""):'<p class="small">Menu mein kisi item par tap karke order shuru karo.</p>';document.querySelectorAll("[data-minus]").forEach(b=>b.onclick=()=>{let i=b.dataset.minus;cart[i]--;if(cart[i]<=0)delete cart[i];renderCart()});document.querySelectorAll("[data-plus]").forEach(b=>b.onclick=()=>{cart[b.dataset.plus]++;renderCart()});let t=total(),d=t*num("discount")/100,p=t-d;document.getElementById("billTotal").textContent=money(t);document.getElementById("discountAmt").textContent=money(d);document.getElementById("payable").textContent=money(p);updateChange();document.getElementById("kotArea").innerHTML=""}
+function updateChange(){let p=payable(),cash=num("cashReceived");document.getElementById("change").textContent=money(document.getElementById("payment").value==="Cash"?Math.max(0,cash-p):0);document.getElementById("cashField").style.display=document.getElementById("payment").value==="Cash"?"grid":"none"}
+function renderReceipts(){document.getElementById("receipts").innerHTML=bills.length?[...bills].reverse().map((b)=>`<div class="row"><span>Bill #${b.id}<br><small class="small">${b.mode} • ${b.payment}</small></span><strong>${money(b.net)}</strong></div>`).join(""):'<p class="small">Abhi koi bill complete nahi hua.</p>'}
+function report(){let gross=bills.reduce((s,b)=>s+b.gross,0),disc=bills.reduce((s,b)=>s+b.discount,0),net=bills.reduce((s,b)=>s+b.net,0);document.getElementById("rGross").textContent=money(gross);document.getElementById("rDiscount").textContent=money(disc);document.getElementById("rNet").textContent=money(net);document.getElementById("rCount").textContent=bills.length;let modes=["Cash","UPI (demo)","Card (demo)"];document.getElementById("paymentBreakdown").innerHTML=modes.map(m=>`<div class="row"><span>${m}</span><strong>${money(bills.filter(b=>b.payment===m).reduce((s,b)=>s+b.net,0))}</strong></div>`).join("")}
+function updateStock(){let close=num("opening")+num("received")-num("used")-num("waste");document.getElementById("closingStock").textContent=close.toFixed(1)+" L";document.getElementById("stockNote").innerHTML=close<0?'<span class="bad">Negative stock — entries check karo.</span>':'Physical stock se match karna yaad rakho.'}
+function purchaseTotal(){return num("pMilkQty")*num("pMilkRate")+num("pSugarQty")*num("pSugarRate")+num("pCupQty")*num("pCupRate")}
+function updatePurchaseTotal(){document.getElementById("purchaseTotal").textContent=money(purchaseTotal())}
+function renderPurchases(){document.getElementById("purchaseList").innerHTML=purchases.length?[...purchases].reverse().map(p=>`<div class="row"><span>${p.supplier}<br><small class="small">${p.items}</small></span><strong>${money(p.total)}</strong></div>`).join(""):'<p class="small">Abhi koi purchase save nahi hui.</p>'}
+let salesItems=[{name:"Chocolate Shake",qty:2,rate:79},{name:"Mango Shake",qty:3,rate:69},{name:"Veg Nuggets",qty:1,rate:79}];
+function renderSales(){document.getElementById("salesTable").innerHTML=`<table><thead><tr><th>Item</th><th>Qty</th><th>Rate ₹</th><th>Total</th></tr></thead><tbody>${salesItems.map((x,i)=>`<tr><td>${x.name}</td><td><input style="width:58px;padding:6px" type="number" min="0" data-sqty="${i}" value="${x.qty}"></td><td><input style="width:68px;padding:6px" type="number" min="0" data-srate="${i}" value="${x.rate}"></td><td>${money(x.qty*x.rate)}</td></tr>`).join("")}</tbody></table>`;document.getElementById("salesTotal").textContent=money(salesItems.reduce((s,x)=>s+x.qty*x.rate,0));document.querySelectorAll("[data-sqty]").forEach(e=>e.oninput=()=>{salesItems[e.dataset.sqty].qty=Math.max(0,Number(e.value)||0);renderSales()});document.querySelectorAll("[data-srate]").forEach(e=>e.oninput=()=>{salesItems[e.dataset.srate].rate=Math.max(0,Number(e.value)||0);renderSales()})}
+document.getElementById("tabs").addEventListener("click",e=>{let b=e.target.closest("button[data-tab]");if(!b)return;document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));if(b.dataset.tab==="reports")report()});
+document.getElementById("discount").onchange=renderCart;document.getElementById("payment").onchange=updateChange;document.getElementById("cashReceived").oninput=updateChange;
+document.getElementById("clearCart").onclick=()=>{cart={};renderCart()};
+document.getElementById("kotBtn").onclick=()=>{if(!Object.keys(cart).length){alert("Pehle menu se item add karo.");return}document.getElementById("kotArea").innerHTML=`<div class="card"><h3>🍳 DEMO KOT — ${document.getElementById("orderType").value}</h3>${Object.entries(cart).map(([i,q])=>`<div class="row"><span>${products[i][0]}</span><strong>× ${q}</strong></div>`).join("")}<p class="small">Training ticket only. Real kitchen printer se connect nahi hai.</p></div>`};
+document.getElementById("completeBill").onclick=()=>{let gross=total();if(!gross){alert("Pehle order mein item add karo.");return}let net=payable(),payment=document.getElementById("payment").value;if(payment==="Cash"&&num("cashReceived")<net){alert("Cash received bill se kam hai.");return}bills.push({id:bills.length+1,gross,discount:gross-net,net,mode:document.getElementById("orderType").value,payment,items:{...cart}});cart={};renderCart();renderReceipts();report();alert("Demo bill complete! Koi real payment nahi hui.")};
+["opening","received","used","waste"].forEach(id=>document.getElementById(id).oninput=updateStock);
+document.getElementById("addStock").onclick=()=>{let qty=num("stockQty"),type=document.getElementById("stockType").value;if(qty<=0){alert("Quantity 0 se zyada honi chahiye.");return}let close=num("opening")+num("received")-num("used")-num("waste");if(type!=="received"&&qty>close){alert("Itna stock available nahi hai.");return}if(type==="received")document.getElementById("received").value=num("received")+qty;if(type==="used")document.getElementById("used").value=num("used")+qty;if(type==="waste")document.getElementById("waste").value=num("waste")+qty;updateStock()};
+document.getElementById("resetStock").onclick=()=>{document.getElementById("opening").value=10;document.getElementById("received").value=5;document.getElementById("used").value=6;document.getElementById("waste").value=0;updateStock()};
+["pMilkQty","pMilkRate","pSugarQty","pSugarRate","pCupQty","pCupRate"].forEach(id=>document.getElementById(id).oninput=updatePurchaseTotal);
+document.getElementById("savePurchase").onclick=()=>{let s=document.getElementById("supplier").value.trim();if(!s){alert("Supplier name likho.");return}purchases.push({supplier:s,total:purchaseTotal(),items:`Milk ${num("pMilkQty")} L • Sugar ${num("pSugarQty")} kg • Cups ${num("pCupQty")}`});document.getElementById("purchaseSaved").innerHTML='<p class="good">Demo purchase saved.</p>';renderPurchases()};
+document.getElementById("resetSales").onclick=()=>{salesItems=[{name:"Chocolate Shake",qty:2,rate:79},{name:"Mango Shake",qty:3,rate:69},{name:"Veg Nuggets",qty:1,rate:79}];renderSales()};
+document.getElementById("resetAll").onclick=()=>{if(confirm("Saare demo bills aur purchases clear kar dein?")){bills=[];purchases=[];cart={};renderCart();renderReceipts();renderPurchases();report();document.getElementById("purchaseSaved").innerHTML=""}};
+renderMenu();renderCart();updateStock();updatePurchaseTotal();renderSales();renderPurchases();report();
 </script>
 </body>
 </html>
